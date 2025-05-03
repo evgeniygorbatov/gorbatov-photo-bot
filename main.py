@@ -6,7 +6,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Callb
 
 # Telegram ID куда отправлять заявки
 OWNER_USERNAME = "@gorbatov_ev"
-port = int(os.environ.get("PORT", 10000))
+
 # Хранилище для ответов
 user_data_store = {}
 
