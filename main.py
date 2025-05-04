@@ -2,10 +2,10 @@ from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext, ConversationHandler
 
 # Вопросы
-(Q1, Q2, Q3, Q4, Q5, Q6) = range(6)
+(Q1, Q2, Q3, Q4, Q5) = range(5)
 
 # Telegram ID куда отправлять заявки
-OWNER_USERNAME = "@gorbatov_ev"
+OWNER_CHAT_ID = 5821754568  # Твой chat_id
 
 # Хранилище для ответов
 user_data_store = {}
@@ -55,7 +55,13 @@ def q5(update, context):
     message = f"📸 Новая заявка от @{update.message.from_user.username or 'неизвестного пользователя'}:\n\n"
     for key, value in answers.items():
         message += f"{key}: {value}\n"
-    context.bot.send_message(chat_id=OWNER_USERNAME, text=message)
+    
+    try:
+        # Отправка сообщения владельцу
+        context.bot.send_message(chat_id=OWNER_CHAT_ID, text=message)
+    except Exception as e:
+        update.message.reply_text("Извините, произошла ошибка при отправке заявки. Пожалуйста, попробуйте еще раз позже или свяжитесь напрямую.")
+        print(f"Ошибка отправки заявки: {e}")
     
     return ConversationHandler.END
 
@@ -64,7 +70,7 @@ def cancel(update, context):
     return ConversationHandler.END
 
 def main():
-    TOKEN = "8171400853:AAGLdEEbD2TJJZ__iYPr67xjK-FYGOaCZhw"  # вставь сюда свой токен
+    TOKEN = "8171400853:AAGLdEEbD2TJJZ__iYPr67xjK-FYGOaCZhw"  # Ваш токен
     updater = Updater(TOKEN, use_context=True)
     dp = updater.dispatcher
 
@@ -87,3 +93,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
